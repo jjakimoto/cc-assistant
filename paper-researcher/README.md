@@ -22,6 +22,7 @@ Paper Researcher is a Claude Code plugin that enables researchers and developers
 
 ### P2 (Future)
 - **Multi-format Export** - Export papers to Markdown, JSON, or CSV formats for external tools
+- **Collaboration** - Share paper collections as ZIP packages, import shared collections, and annotate papers
 
 ## Installation
 
@@ -325,6 +326,122 @@ Files created:
 - **JSON**: Single `papers.json` with full metadata and optional summaries
 - **CSV**: Single `papers.csv` with tabular metadata for spreadsheets
 
+### Share Paper Collection
+
+Create a portable ZIP package to share your paper collection with team members:
+
+```bash
+# Share entire collection
+/paper-researcher:paper-share
+
+# Share specific papers with summaries
+/paper-researcher:paper-share --paper-id 2401.12345 --paper-id 2401.12346 --include-summaries
+
+# Share with description and annotations
+/paper-researcher:paper-share --include-summaries --include-annotations --description "LLM research papers Q1 2026"
+```
+
+**Arguments:**
+- `--paper-id <id>` (optional, repeatable): Specific paper ID(s) to share
+- `--include-summaries` (flag): Include AI-generated summaries
+- `--include-annotations` (flag): Include annotations
+- `--description <text>` (optional): Description for the collection
+- `--output <path>` (optional, default=`./collection.zip`): Output file path
+
+**Example Output:**
+```
+Created collection package with 12 papers.
+Package: /path/to/collection.zip
+
+Included:
+- 12 paper metadata files
+- 10 summaries
+- 5 annotations
+
+Share this file with team members who can import it with:
+/paper-researcher:paper-import collection.zip
+```
+
+### Import Paper Collection
+
+Import a paper collection shared by a team member:
+
+```bash
+# Import shared collection
+/paper-researcher:paper-import collection.zip
+
+# Import with overwrite (replace existing papers)
+/paper-researcher:paper-import team_papers.zip --overwrite
+```
+
+**Arguments:**
+- `<input-file>` (required): Path to ZIP package to import
+- `--overwrite` (flag): Overwrite existing papers (default: skip duplicates)
+
+**Example Output:**
+```
+Imported 10 papers from collection.
+
+Summary:
+- Imported: 10 papers
+- Skipped: 2 papers (already exist)
+- Annotations: 5 imported
+
+Package info:
+- Created by: researcher@team
+- Created at: 2026-01-27
+- Description: LLM research papers Q1 2026
+```
+
+**Security Features:**
+- ZIP file integrity validation
+- Path traversal prevention
+- ZIP bomb protection (size limits, compression ratio checks)
+- Paper ID format validation
+
+### Annotate Papers
+
+Add annotations (notes, highlights, questions, comments) to papers:
+
+```bash
+# Add a note to a paper
+/paper-researcher:paper-annotate 2401.12345 --content "Key insight about attention mechanisms"
+
+# Add a highlight with type
+/paper-researcher:paper-annotate 2401.12345 --content "Important finding" --type highlight
+
+# Add a question
+/paper-researcher:paper-annotate 2401.12345 --content "How does this compare to transformer-XL?" --type question
+```
+
+**Arguments:**
+- `<paper-id>` (required): arXiv paper ID
+- `--content <text>` (required): Annotation content
+- `--type <note|highlight|question|comment>` (optional, default=note): Annotation type
+- `--username <name>` (optional): Your name/identifier
+
+**Example Output:**
+```
+Annotation saved for paper 2401.12345
+
+Type: note
+Content: Key insight about attention mechanisms
+Author: researcher
+ID: a1b2c3d4
+
+Total annotations for this paper: 3
+```
+
+**List Annotations:**
+
+```bash
+# List annotations for a paper (markdown format)
+/paper-researcher:paper-annotate 2401.12345 --list
+
+# List in JSON format
+/paper-researcher:paper-annotate 2401.12345 --list --format json
+```
+
 ## Data Storage
 
 Papers are stored locally in the `data/` directory (excluded from git):
@@ -335,6 +452,8 @@ data/
 │   ├── 2401.12345/
 │   │   ├── metadata.json
 │   │   ├── summary.md
+│   │   ├── annotations/    # Paper annotations
+│   │   │   └── note_abc123.json
 │   │   └── paper.pdf (optional)
 │   └── ...
 ├── index/            # Search and citation indexes
@@ -378,12 +497,15 @@ paper-researcher/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin metadata
 ├── commands/
+│   ├── paper-annotate.md   # Add annotations to papers
 │   ├── paper-blog.md       # Generate blog post from summary
 │   ├── paper-collect.md     # Collect papers from arXiv
 │   ├── paper-citations.md   # Fetch citation data
 │   ├── paper-digest.md      # Generate digest of recent papers
 │   ├── paper-export.md      # Export papers to various formats
+│   ├── paper-import.md      # Import shared paper collection
 │   ├── paper-search.md      # Search collected papers
+│   ├── paper-share.md       # Share paper collection as ZIP
 │   └── paper-summarize.md   # Summarize a specific paper
 ├── skills/
 │   ├── paper-blogger/
@@ -395,6 +517,13 @@ paper-researcher/
 │   │   └── scripts/
 │   │       ├── fetch_citations.py
 │   │       └── build_graph.py
+│   ├── paper-collaborator/
+│   │   ├── SKILL.md         # Share/import/annotate workflow
+│   │   └── scripts/
+│   │       ├── share_collection.py
+│   │       ├── import_collection.py
+│   │       ├── save_annotation.py
+│   │       └── list_annotations.py
 │   ├── paper-collector/
 │   │   ├── SKILL.md         # Collection workflow
 │   │   └── scripts/
