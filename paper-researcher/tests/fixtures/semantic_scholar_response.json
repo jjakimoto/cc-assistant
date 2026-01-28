@@ -1,0 +1,43 @@
+{
+  "paperId": "abc123def456",
+  "externalIds": {
+    "ArXiv": "2401.1234",
+    "DOI": "10.1234/example"
+  },
+  "citationCount": 42,
+  "referenceCount": 25,
+  "references": [
+    {
+      "paperId": "ref123",
+      "externalIds": {
+        "ArXiv": "2301.5432"
+      }
+    },
+    {
+      "paperId": "ref456",
+      "externalIds": {
+        "DOI": "10.5678/no-arxiv"
+      }
+    },
+    {
+      "paperId": "ref789",
+      "externalIds": {
+        "ArXiv": "2312.9876"
+      }
+    }
+  ],
+  "citations": [
+    {
+      "paperId": "cite123",
+      "externalIds": {
+        "ArXiv": "2402.1111"
+      }
+    },
+    {
+      "paperId": "cite456",
+      "externalIds": {
+        "ArXiv": "2403.2222"
+      }
+    }
+  ]
+}

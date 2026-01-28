@@ -17,7 +17,7 @@ Paper Researcher is a Claude Code plugin that enables researchers and developers
 
 ### P1 (Nice-to-Have)
 - **Daily/Weekly Digest** - Generate digests of recently collected papers grouped by topic
-- Citation Graph - Track related papers and references (coming soon)
+- **Citation Graph** - Track paper relationships via citations from Semantic Scholar
 - Blog Post Generation - Transform summaries into readable blog posts (coming soon)
 
 ## Installation
@@ -187,6 +187,41 @@ Included 12 papers from the last 7 days, grouped into 4 topics:
 ...
 ```
 
+### Fetch Citation Data
+
+Fetch citation data from Semantic Scholar and build a citation graph:
+
+```bash
+# For all papers in collection
+/paper-researcher:paper-citations --all
+
+# For a specific paper
+/paper-researcher:paper-citations 2401.12345
+```
+
+**Arguments:**
+- `<paper-id>` (optional): Specific arXiv paper ID
+- `--all` (flag): Fetch citations for all papers in collection
+
+**Example Output:**
+```
+Fetched citations for 45/50 papers
+5 papers not found in Semantic Scholar
+
+Top cited papers in your collection:
+1. [2301.54321] "Paper Title" - 15 citations
+2. [2312.98765] "Another Paper" - 12 citations
+3. [2310.11111] "Third Paper" - 8 citations
+
+Citation graph saved to data/index/citations.json
+```
+
+**Citation Features:**
+- Fetches references and citations from Semantic Scholar API
+- Identifies which referenced papers are in your collection
+- Builds a citation graph for relationship analysis
+- Identifies highly-cited papers in your collection
+
 ## Data Storage
 
 Papers are stored locally in the `data/` directory (excluded from git):
@@ -199,8 +234,9 @@ data/
 │   │   ├── summary.md
 │   │   └── paper.pdf (optional)
 │   └── ...
-├── index/            # Search index
-│   └── papers.json
+├── index/            # Search and citation indexes
+│   ├── papers.json
+│   └── citations.json
 └── digests/          # Generated digests
     └── 2026-01-27.md
 ```
@@ -234,10 +270,16 @@ paper-researcher/
 │   └── plugin.json          # Plugin metadata
 ├── commands/
 │   ├── paper-collect.md     # Collect papers from arXiv
+│   ├── paper-citations.md   # Fetch citation data
 │   ├── paper-digest.md      # Generate digest of recent papers
 │   ├── paper-search.md      # Search collected papers
 │   └── paper-summarize.md   # Summarize a specific paper
 ├── skills/
+│   ├── paper-citation/
+│   │   ├── SKILL.md         # Citation graph workflow
+│   │   └── scripts/
+│   │       ├── fetch_citations.py
+│   │       └── build_graph.py
 │   ├── paper-collector/
 │   │   ├── SKILL.md         # Collection workflow
 │   │   └── scripts/
