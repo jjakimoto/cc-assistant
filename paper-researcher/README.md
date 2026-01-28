@@ -20,6 +20,9 @@ Paper Researcher is a Claude Code plugin that enables researchers and developers
 - **Citation Graph** - Track paper relationships via citations from Semantic Scholar
 - **Blog Post Generation** - Transform summaries into readable blog posts for publishing platforms
 
+### P2 (Future)
+- **Multi-format Export** - Export papers to Markdown, JSON, or CSV formats for external tools
+
 ## Installation
 
 ### Prerequisites
@@ -276,6 +279,52 @@ tags: ["AI", "LLM", "agents"]
 - Formats for publishing platforms (Medium, Dev.to, etc.)
 - Includes YAML front matter for static site generators
 
+### Export Papers
+
+Export your paper collection to Markdown, JSON, or CSV formats:
+
+```bash
+# Export all papers as Markdown
+/paper-researcher:paper-export --format markdown --all
+
+# Export all papers as JSON with summaries
+/paper-researcher:paper-export --format json --all --include-summary
+
+# Export papers matching a query as CSV
+/paper-researcher:paper-export --format csv --query "attention"
+
+# Export single paper
+/paper-researcher:paper-export --format markdown --paper-id 2401.12345
+
+# Export recent papers
+/paper-researcher:paper-export --format json --all --since 7d
+```
+
+**Arguments:**
+- `--format <markdown|json|csv>` (required): Export format
+- `--all` (flag): Export all papers
+- `--paper-id <id>` (optional): Export single paper by ID
+- `--query <query>` (optional): Export papers matching query
+- `--since <timespan>` (optional): Filter by collection date (e.g., 7d, 30d)
+- `--output <path>` (optional): Custom output directory
+- `--include-summary` (flag): Include full summary content (Markdown, JSON only)
+
+**Example Output:**
+```
+Exported 12 papers as JSON.
+
+Output directory: data/exports/json
+
+Files created:
+- papers.json
+```
+
+**Export Formats:**
+
+- **Markdown**: Individual `paper_{id}.md` files with formatted content
+- **JSON**: Single `papers.json` with full metadata and optional summaries
+- **CSV**: Single `papers.csv` with tabular metadata for spreadsheets
+
 ## Data Storage
 
 Papers are stored locally in the `data/` directory (excluded from git):
@@ -293,8 +342,12 @@ data/
 │   └── citations.json
 ├── digests/          # Generated digests
 │   └── 2026-01-27.md
-└── blog-posts/       # Generated blog posts
-    └── 2401.12345.md
+├── blog-posts/       # Generated blog posts
+│   └── 2401.12345.md
+└── exports/          # Exported papers
+    ├── markdown/
+    ├── json/
+    └── csv/
 ```
 
 ## Development
@@ -329,6 +382,7 @@ paper-researcher/
 │   ├── paper-collect.md     # Collect papers from arXiv
 │   ├── paper-citations.md   # Fetch citation data
 │   ├── paper-digest.md      # Generate digest of recent papers
+│   ├── paper-export.md      # Export papers to various formats
 │   ├── paper-search.md      # Search collected papers
 │   └── paper-summarize.md   # Summarize a specific paper
 ├── skills/
@@ -350,6 +404,10 @@ paper-researcher/
 │   │   ├── SKILL.md         # Digest generation workflow
 │   │   └── scripts/
 │   │       └── build_digest.py
+│   ├── paper-exporter/
+│   │   ├── SKILL.md         # Export workflow
+│   │   └── scripts/
+│   │       └── export_papers.py
 │   ├── paper-searcher/
 │   │   ├── SKILL.md         # Search workflow
 │   │   └── scripts/
