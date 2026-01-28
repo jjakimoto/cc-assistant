@@ -78,11 +78,33 @@ New papers:
 
 ### Search Papers
 
-Search your collected papers:
+Search your collected papers by keyword or question:
 
 ```bash
 /paper-researcher:paper-search "attention mechanisms"
 ```
+
+**Arguments:**
+- `<query>` (required): Search keywords or natural language question
+
+**Example Output:**
+```
+Found 5 papers matching "attention mechanisms":
+
+1. [2401.12345] "Attention is All You Need Revisited" - Smith et al.
+   Score: 8.5
+   > "...novel attention mechanism that improves on the original..."
+
+2. [2401.12346] "Multi-Head Attention Patterns" - Jones et al.
+   Score: 6.0
+   > "...analyzing attention patterns across layers..."
+```
+
+**Search Features:**
+- Searches across paper titles, abstracts, and summaries
+- Returns ranked results by relevance score
+- Extracts relevant excerpts showing matched content
+- Case-insensitive matching
 
 ### Summarize a Paper
 
@@ -172,6 +194,7 @@ paper-researcher/
 │   └── plugin.json          # Plugin metadata
 ├── commands/
 │   ├── paper-collect.md     # Collect papers from arXiv
+│   ├── paper-search.md      # Search collected papers
 │   └── paper-summarize.md   # Summarize a specific paper
 ├── skills/
 │   ├── paper-collector/
@@ -179,6 +202,10 @@ paper-researcher/
 │   │   └── scripts/
 │   │       ├── fetch_arxiv.py
 │   │       └── store_paper.py
+│   ├── paper-searcher/
+│   │   ├── SKILL.md         # Search workflow
+│   │   └── scripts/
+│   │       └── search_index.py
 │   └── paper-summarizer/
 │       ├── SKILL.md         # Summarization workflow
 │       └── scripts/
@@ -204,6 +231,12 @@ If you see errors about rate limiting, the script has built-in retry logic with 
 - Try broadening your search query
 - Increase the `--days` parameter to search further back
 - Check that your topic keywords match arXiv paper titles/abstracts
+
+**No search results**
+
+- Try different or broader keywords
+- Ensure papers have been collected first with `/paper-researcher:paper-collect`
+- Search uses keyword matching - try simpler terms
 
 **Import errors when running scripts**
 
