@@ -16,9 +16,9 @@ Paper Researcher is a Claude Code plugin that enables researchers and developers
 - **Paper Search** - Find relevant papers in your collection by topic or question
 
 ### P1 (Nice-to-Have)
-- Daily/Weekly Digest - Scheduled summaries of new papers
-- Citation Graph - Track related papers and references
-- Blog Post Generation - Transform summaries into readable blog posts
+- **Daily/Weekly Digest** - Generate digests of recently collected papers grouped by topic
+- Citation Graph - Track related papers and references (coming soon)
+- Blog Post Generation - Transform summaries into readable blog posts (coming soon)
 
 ## Installation
 
@@ -144,10 +144,47 @@ The authors propose a hierarchical agent framework...
 
 ### Generate Digest
 
-Create a digest of recently collected papers:
+Create a dated digest of recently collected papers, grouped by topic:
 
 ```bash
 /paper-researcher:paper-digest --since 7d
+```
+
+**Arguments:**
+- `--since <timespan>` (optional, default=7d): Time range for papers (1d, 7d, 14d, 30d, 1w, 24h)
+
+**Example Output:**
+```
+Digest generated at data/digests/2026-01-27.md
+
+Included 12 papers from the last 7 days, grouped into 4 topics:
+- LLM Agents: 5 papers
+- Transformers: 4 papers
+- Attention Mechanisms: 2 papers
+- Uncategorized: 1 paper
+```
+
+**Digest File Format:**
+```markdown
+# Research Paper Digest
+
+**Generated:** 2026-01-27
+**Period:** 2026-01-20 to 2026-01-27
+**Papers:** 12 (10 with summaries)
+
+---
+
+## LLM Agents
+
+### [2401.12345] Agent Framework for LLM Applications
+**Authors:** Smith, Jones, Lee
+**Published:** 2026-01-22
+
+> This paper presents a framework for building autonomous LLM agents...
+
+[View Full Summary](../papers/2401.12345/summary.md)
+
+...
 ```
 
 ## Data Storage
@@ -197,6 +234,7 @@ paper-researcher/
 │   └── plugin.json          # Plugin metadata
 ├── commands/
 │   ├── paper-collect.md     # Collect papers from arXiv
+│   ├── paper-digest.md      # Generate digest of recent papers
 │   ├── paper-search.md      # Search collected papers
 │   └── paper-summarize.md   # Summarize a specific paper
 ├── skills/
@@ -205,6 +243,10 @@ paper-researcher/
 │   │   └── scripts/
 │   │       ├── fetch_arxiv.py
 │   │       └── store_paper.py
+│   ├── paper-digest/
+│   │   ├── SKILL.md         # Digest generation workflow
+│   │   └── scripts/
+│   │       └── build_digest.py
 │   ├── paper-searcher/
 │   │   ├── SKILL.md         # Search workflow
 │   │   └── scripts/
