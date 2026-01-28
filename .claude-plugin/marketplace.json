@@ -1,0 +1,12 @@
+{
+  "name": "cc-assistant",
+  "owner": {
+    "name": "Paper Researcher Team"
+  },
+  "plugins": [
+    {
+      "name": "paper-researcher",
+      "source": "./paper-researcher"
+    }
+  ]
+}

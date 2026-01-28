@@ -30,26 +30,29 @@ Paper Researcher is a Claude Code plugin that enables researchers and developers
 
 ### Setup
 
-1. Clone or copy this plugin to your plugins directory:
+1. Clone the repository:
 
 ```bash
-cd your-project
-git clone <this-repo> paper-researcher
+git clone <this-repo> cc-assistant
+cd cc-assistant/paper-researcher
 ```
 
 2. Install dependencies:
 
 ```bash
-cd paper-researcher
 uv venv
 uv sync
 ```
 
-3. Register with Claude Code:
+3. Add the marketplace and install the plugin:
 
 ```bash
-claude plugin install ./paper-researcher
+cd ..  # back to cc-assistant directory
+claude plugin marketplace add .
+claude plugin install paper-researcher
 ```
+
+4. Restart Claude Code to load the plugin.
 
 ## Usage
 
