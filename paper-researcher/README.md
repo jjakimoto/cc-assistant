@@ -18,7 +18,7 @@ Paper Researcher is a Claude Code plugin that enables researchers and developers
 ### P1 (Nice-to-Have)
 - **Daily/Weekly Digest** - Generate digests of recently collected papers grouped by topic
 - **Citation Graph** - Track paper relationships via citations from Semantic Scholar
-- Blog Post Generation - Transform summaries into readable blog posts (coming soon)
+- **Blog Post Generation** - Transform summaries into readable blog posts for publishing platforms
 
 ## Installation
 
@@ -222,6 +222,60 @@ Citation graph saved to data/index/citations.json
 - Builds a citation graph for relationship analysis
 - Identifies highly-cited papers in your collection
 
+### Generate Blog Post
+
+Transform a paper summary into an engaging blog post for publishing platforms:
+
+```bash
+/paper-researcher:paper-blog 2401.12345
+```
+
+**Arguments:**
+- `<paper-id>` (required): arXiv paper ID (paper must have a summary)
+
+**Example Output:**
+```markdown
+---
+title: "How AI Agents Are Learning to Plan"
+date: 2026-01-27
+paper_id: 2401.12345
+authors: ["John Smith", "Jane Doe"]
+tags: ["AI", "LLM", "agents"]
+---
+
+# How AI Agents Are Learning to Plan
+
+*A deep dive into hierarchical planning and what it means for AI assistants*
+
+## The Problem
+...
+
+## The Approach
+...
+
+## What They Found
+...
+
+## Why This Matters
+...
+
+## Key Takeaways
+1. Hierarchical decomposition improves task handling
+2. Reflection phases are critical for error recovery
+3. The framework works across different LLMs
+
+---
+
+*Based on "Agent Framework for LLM Applications" by John Smith, Jane Doe*
+*Read the full paper: https://arxiv.org/abs/2401.12345*
+```
+
+**Blog Post Features:**
+- Transforms academic summaries into accessible narratives
+- Generates engaging titles and introductions
+- Formats for publishing platforms (Medium, Dev.to, etc.)
+- Includes YAML front matter for static site generators
+
 ## Data Storage
 
 Papers are stored locally in the `data/` directory (excluded from git):
@@ -237,8 +291,10 @@ data/
 ├── index/            # Search and citation indexes
 │   ├── papers.json
 │   └── citations.json
-└── digests/          # Generated digests
-    └── 2026-01-27.md
+├── digests/          # Generated digests
+│   └── 2026-01-27.md
+└── blog-posts/       # Generated blog posts
+    └── 2401.12345.md
 ```
 
 ## Development
@@ -269,12 +325,17 @@ paper-researcher/
 ├── .claude-plugin/
 │   └── plugin.json          # Plugin metadata
 ├── commands/
+│   ├── paper-blog.md       # Generate blog post from summary
 │   ├── paper-collect.md     # Collect papers from arXiv
 │   ├── paper-citations.md   # Fetch citation data
 │   ├── paper-digest.md      # Generate digest of recent papers
 │   ├── paper-search.md      # Search collected papers
 │   └── paper-summarize.md   # Summarize a specific paper
 ├── skills/
+│   ├── paper-blogger/
+│   │   ├── SKILL.md         # Blog post generation workflow
+│   │   └── scripts/
+│   │       └── save_blog_post.py
 │   ├── paper-citation/
 │   │   ├── SKILL.md         # Citation graph workflow
 │   │   └── scripts/
