@@ -1,0 +1,8 @@
+{
+    "name": "paper-researcher",
+    "description": "AI-powered research paper collection, summarization, and search pipeline.",
+    "version": "1.0.0",
+    "author": {
+        "name": "Paper Researcher Team"
+    }
+}
